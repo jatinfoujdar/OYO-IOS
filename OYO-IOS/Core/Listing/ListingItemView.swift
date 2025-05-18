@@ -1,23 +1,25 @@
-//
-//  ListingItemView.swift
-//  OYO-IOS
-//
-//  Created by jatin foujdar on 18/05/25.
-//
-
 import SwiftUI
 
 struct ListingItemView: View {
     var body: some View {
-        VStack(spacing: 8){
-            Rectangle()
-                .frame(height: 320)
-                .clipShape(RoundedRectangle(cornerRadius: 10))
+        let images = ["1", "2", "3"]
+        
+        VStack(spacing: 8) {
+            TabView {
+                ForEach(0..<images.count, id: \.self) { index in
+                    Image(images[index])
+                        .resizable()
+                        .scaledToFill()
+                        .frame(height: 320)
+                        .clipped()
+                }
+            }
+            .frame(height: 320)
+            .clipShape(RoundedRectangle(cornerRadius: 10))
+            .tabViewStyle(.page)
             
-            
-            
-            HStack(alignment: .top){
-                VStack(alignment: .leading){
+            HStack(alignment: .top) {
+                VStack(alignment: .leading) {
                     Text("Mumbai, India")
                         .fontWeight(.semibold)
                     
@@ -27,7 +29,7 @@ struct ListingItemView: View {
                     Text("May 18 - 21")
                         .foregroundStyle(.gray)
                     
-                    HStack(spacing: 4){
+                    HStack(spacing: 4) {
                         Text("₹567")
                             .fontWeight(.semibold)
                         Text("night")
@@ -36,14 +38,14 @@ struct ListingItemView: View {
                 
                 Spacer()
                 
-                HStack(spacing: 2){
+                HStack(spacing: 2) {
                     Image(systemName: "star.fill")
-                    
                     Text("4.8")
                 }
             }
             .font(.footnote)
         }
+        .padding()
     }
 }
 
