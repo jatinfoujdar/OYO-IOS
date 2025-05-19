@@ -5,9 +5,23 @@ struct ListingDetailView: View {
     
     var body: some View {
         ScrollView{
-            ListingImageCraouselView()
-                .frame(height: 320)
-                
+            ZStack(alignment: .topLeading){
+                ListingImageCraouselView()
+                    .frame(height: 320)
+            
+                Button{
+                    
+                }label: {
+                    Image(systemName: "chevron.left")
+                        .foregroundStyle(.black)
+                        .background{
+                            Circle()
+                                .fill(.white)
+                                .frame(width: 32, height: 32)
+                        }
+                        .padding(32)
+                }
+            }
             VStack(alignment: .leading){
                 Text("Mumbai Villa")
                     .font(.title)
@@ -159,6 +173,17 @@ struct ListingDetailView: View {
                 HStack{
                     VStack(alignment: .leading){
                         Text("₹500")
+                            .font(.headline)
+                            .fontWeight(.semibold)
+                        
+                        Text("Total before taxes")
+                            .font(.footnote)
+                        
+                        Text("Oct 15 - 20")
+                            .font(.footnote)
+                            .fontWeight(.semibold)
+                            .underline()
+                        
                     }
                     Spacer()
                     
