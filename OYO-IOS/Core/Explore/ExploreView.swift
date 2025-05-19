@@ -10,6 +10,7 @@ import SwiftUI
 struct ExploreView: View {
     var body: some View {
         ScrollView{
+            SearchFilterBarView()
             LazyVStack(spacing: 35){
                 ForEach(0 ... 10, id: \.self){listing in
                     ListingItemView()
