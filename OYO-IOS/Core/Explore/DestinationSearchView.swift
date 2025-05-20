@@ -44,6 +44,49 @@ struct DestinationSearchView: View {
             }
         }
         .padding()
+        .background(.white)
+        .clipShape(RoundedRectangle(cornerRadius: 12))
+        .padding()
+        .shadow(radius: 10)
+        
+        VStack{
+            HStack{
+                Text("When")
+                    .foregroundStyle(.gray)
+                
+                Spacer()
+                
+                Text("Add dates")
+                    .font(.title3)
+                    .fontWeight(.semibold)
+                
+            }
+            .padding()
+            .background(.white)
+            .clipShape(RoundedRectangle(cornerRadius: 12))
+            .padding()
+            .shadow(radius: 10)
+        }
+        
+        
+        VStack{
+            HStack{
+                Text("Who")
+                    .foregroundStyle(.gray)
+                
+                Spacer()
+                
+                Text("Add guests")
+                    .font(.title3)
+                    .fontWeight(.semibold)
+                
+            }
+            .padding()
+            .background(.white)
+            .clipShape(RoundedRectangle(cornerRadius: 12))
+            .padding()
+            .shadow(radius: 10)
+        }
     }
 }
 
