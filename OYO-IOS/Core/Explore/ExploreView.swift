@@ -23,7 +23,9 @@ struct ExploreView: View {
             .padding()
         }
         .navigationDestination(for: Int.self){listing in
-            Text("Listing details view...")
+            ListingDetailView()
+                .navigationBarBackButtonHidden(true)
+                .navigationBarHidden(true)
         }
     }
 }

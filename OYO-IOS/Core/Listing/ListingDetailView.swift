@@ -2,7 +2,7 @@ import SwiftUI
 import MapKit
 
 struct ListingDetailView: View {
-    
+    @Environment(\.dismiss) var dismiss
     var body: some View {
         ScrollView{
             ZStack(alignment: .topLeading){
@@ -10,7 +10,7 @@ struct ListingDetailView: View {
                     .frame(height: 320)
             
                 Button{
-                    
+                dismiss()
                 }label: {
                     Image(systemName: "chevron.left")
                         .foregroundStyle(.black)
