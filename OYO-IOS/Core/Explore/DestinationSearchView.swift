@@ -49,47 +49,39 @@ struct DestinationSearchView: View {
         .padding()
         .shadow(radius: 10)
         
-        VStack{
-            HStack{
-                Text("When")
-                    .foregroundStyle(.gray)
-                
-                Spacer()
-                
-                Text("Add dates")
-                    .font(.title3)
-                    .fontWeight(.semibold)
-                
-            }
-            .padding()
-            .background(.white)
-            .clipShape(RoundedRectangle(cornerRadius: 12))
-            .padding()
-            .shadow(radius: 10)
-        }
+        CollapsedPickerView(title: "When", description: "Add dates")
         
+        CollapsedPickerView(title: "Who", description: "Add guests")
         
-        VStack{
-            HStack{
-                Text("Who")
-                    .foregroundStyle(.gray)
-                
-                Spacer()
-                
-                Text("Add guests")
-                    .font(.title3)
-                    .fontWeight(.semibold)
-                
-            }
-            .padding()
-            .background(.white)
-            .clipShape(RoundedRectangle(cornerRadius: 12))
-            .padding()
-            .shadow(radius: 10)
-        }
     }
 }
 
 #Preview {
     DestinationSearchView(show: .constant(false))
+}
+
+struct CollapsedPickerView: View {
+    let title : String
+    let description: String
+    
+    var body: some View {
+        VStack{
+            HStack{
+                Text(title)
+                    .foregroundStyle(.gray)
+                
+                Spacer()
+                
+                Text(description)
+            }
+            .font(.subheadline)
+            .fontWeight(.semibold)
+                
+            }
+            .padding()
+            .background(.white)
+            .clipShape(RoundedRectangle(cornerRadius: 12))
+            .padding()
+            .shadow(radius: 10)
+        }
 }
