@@ -7,9 +7,16 @@
 
 import SwiftUI
 
+enum DestinationSearchOptions{
+    case location
+    case dates
+    case guests
+}
+
 struct DestinationSearchView: View {
     @Binding var show : Bool
     @State private var destination = ""
+    @State private var selectedOptions: DestinationSearchOptions = .location
     
     var body: some View {
         VStack{
@@ -22,37 +29,85 @@ struct DestinationSearchView: View {
                     .imageScale(.large)
                     .foregroundStyle(.black)
             }
+            
+            
             VStack(alignment: .leading){
-                Text("Where to?")
-                    .font(.title2)
-                    .fontWeight(.semibold)
-                
-                HStack{
-                    Image(systemName: "magnifyingglass")
-                        .imageScale(.small)
+                if selectedOptions == .location{
+                    Text("Where to?")
+                        .font(.title2)
+                        .fontWeight(.semibold)
                     
-                    TextField("Search destinations", text: $destination)
-                        .font(.subheadline)
-                }
-                .frame(height: 44)
-                .padding(.horizontal)
-                .overlay{
-                    RoundedRectangle(cornerRadius: 8)
-                        .stroke(lineWidth: 1.0)
-                        .foregroundStyle(Color(.systemGray4))
+                    HStack{
+                        Image(systemName: "magnifyingglass")
+                            .imageScale(.small)
+                        
+                        TextField("Search destinations", text: $destination)
+                            .font(.subheadline)
+                    }
+                    .frame(height: 44)
+                    .padding(.horizontal)
+                    .overlay{
+                        RoundedRectangle(cornerRadius: 8)
+                            .stroke(lineWidth: 1.0)
+                            .foregroundStyle(Color(.systemGray4))
+                    }
+                }else{
+                    CollapsedPickerView(title: "Where", description: "Add destination")
                 }
             }
         }
         .padding()
+        .frame(height: selectedOptions == .location ? 120 : 64)
         .background(.white)
         .clipShape(RoundedRectangle(cornerRadius: 12))
         .padding()
         .shadow(radius: 10)
+        .onTapGesture {
+            withAnimation(.snappy){selectedOptions = .location}
+        }
         
-        CollapsedPickerView(title: "When", description: "Add dates")
         
-        CollapsedPickerView(title: "Who", description: "Add guests")
+        VStack{
+            if selectedOptions == .dates{
+                HStack{
+                    Text("show expended")
+                    Spacer()
+                }
+            }else{
+                CollapsedPickerView(title: "When", description: "Add dates")
+            }
+        }
+        .padding()
+        .frame(height: selectedOptions == .dates ? 120 : 64)
+        .background(.white)
+        .clipShape(RoundedRectangle(cornerRadius: 12))
+        .padding()
+        .shadow(radius: 10)
+        .onTapGesture {
+            withAnimation(.snappy){ selectedOptions = .dates}
+        }
         
+        
+        
+        VStack{
+            if selectedOptions == .guests{
+                HStack{
+                    Text("show expended")
+                    Spacer()
+                }
+            }else{
+                CollapsedPickerView(title: "Who", description: "Add guests")
+            }
+        }
+        .padding()
+        .frame(height: selectedOptions == .guests ? 120 : 64)
+        .background(.white)
+        .clipShape(RoundedRectangle(cornerRadius: 12))
+        .padding()
+        .shadow(radius: 10)
+        .onTapGesture {
+            withAnimation(.snappy){ selectedOptions = .guests}
+        }
     }
 }
 
@@ -76,12 +131,7 @@ struct CollapsedPickerView: View {
             }
             .font(.subheadline)
             .fontWeight(.semibold)
-                
-            }
-            .padding()
-            .background(.white)
-            .clipShape(RoundedRectangle(cornerRadius: 12))
-            .padding()
-            .shadow(radius: 10)
+            
         }
+    }
 }
