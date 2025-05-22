@@ -20,7 +20,7 @@ struct DestinationSearchView: View {
     @State private var startDate = Date()
     @State private var endDate = Date()
     @State private var numGuests = 0
-    @State private var clear = ""
+   
     
     var body: some View {
         VStack(alignment: .leading) {
@@ -38,12 +38,14 @@ struct DestinationSearchView: View {
                 
                 Spacer()
                 
-                Button("Clear") {
-                    // Clear logic (currently empty)
+                if !destination.isEmpty{
+                    Button("Clear") {
+                        destination = ""
+                    }
+                    .foregroundStyle(.black)
+                    .font(.subheadline)
+                    .fontWeight(.semibold)
                 }
-                .foregroundStyle(.black)
-                .font(.subheadline)
-                .fontWeight(.semibold)
             }
             .padding(.horizontal)
             
