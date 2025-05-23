@@ -20,6 +20,7 @@ struct ListingModel : Identifiable, Codable{
     var rating: Double
     var feature: [ListingFeatures]
     var amenities: [ListingAmenities]
+    let type: ListingType
 }
 
 
