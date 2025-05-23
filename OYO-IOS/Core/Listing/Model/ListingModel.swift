@@ -106,3 +106,24 @@ enum ListingAmenities: Int, Identifiable, Hashable, Codable {
     }
 }
 
+enum ListingType: Int, Identifiable, Codable, Hashable {
+    var id: Int { return self.rawValue }
+    
+    case apartment
+    case house
+    case townHouse
+    case villa
+    
+    var description: String {
+        switch self {
+        case .apartment:
+            return "Apartment"
+        case .house:
+            return "House"
+        case .townHouse:
+            return "Townhouse"
+        case .villa:
+            return "Villa"
+        }
+    }
+}
