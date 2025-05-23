@@ -22,12 +22,42 @@ struct ListingModel : Identifiable, Codable{
 }
 
 
-enum ListingFeatures: Int, Codable, Identifiable, Hashable{
-    var id: Int {return self.rawValue}
+enum ListingFeatures: Int, Codable, Identifiable, Hashable {
+    var id: Int { return self.rawValue }
     
     case selfCheckIn
     case superHost
+    
+    var imageName: String {
+        switch self {
+        case .selfCheckIn:
+            return "door.left.hand.open"
+        case .superHost:
+            return "medal"
+        }
+    }
+    
+    var title: String {
+        switch self {
+        case .selfCheckIn:
+            return "Self Check-In"
+        case .superHost:
+            return "Superhost"
+        }
+    }
+    
+    var subtitle: String {
+        switch self {
+        case .selfCheckIn:
+            return "Check yourself in with the smart lock"
+        case .superHost:
+            return "This host is highly rated for their hospitality"
+        }
+    }
 }
+
+
+
 
 enum ListingAmenities: Int, Identifiable, Hashable, Codable {
     var id: Int { return self.rawValue }
