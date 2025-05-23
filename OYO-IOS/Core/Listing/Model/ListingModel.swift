@@ -13,12 +13,13 @@ struct ListingModel : Identifiable, Codable{
     var pricePerNight: Int
     let latitude: Double
     let longitude: Double
-    let Address: String
+    let address: String
     let city: String
     let state: String
     let title: String
     var rating: Double
-    
+    var feature: [ListingFeatures]
+    var amenities: [ListingAmenities]
 }
 
 
