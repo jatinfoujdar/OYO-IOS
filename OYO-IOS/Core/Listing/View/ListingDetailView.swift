@@ -165,7 +165,7 @@ struct ListingDetailView: View {
         }
         .toolbar(.hidden, for: .tabBar)
         .ignoresSafeArea()
-        .padding(.bottom,50)
+        .padding(.bottom,70)
         .overlay(alignment: .bottom){
             VStack{
                 Divider()
@@ -193,8 +193,8 @@ struct ListingDetailView: View {
                     }label: {
                         Text("Reserve")
                             .foregroundStyle(.white)
-                            .font(.subheadline)
-                            .fontWeight(.semibold)
+                            .font(.headline)
+                            .fontWeight(.bold)
                             .frame(width: 140, height: 40)
                             .background(.pink)
                             .clipShape(RoundedRectangle(cornerRadius: 8))
