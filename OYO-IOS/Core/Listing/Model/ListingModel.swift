@@ -1,6 +1,6 @@
 import Foundation
 
-struct ListingModel : Identifiable, Codable{
+struct ListingModel : Identifiable, Codable, Hashable{
     
     let id: String
     let ownerUId: String

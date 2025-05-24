@@ -1,7 +1,7 @@
 import SwiftUI
 
 struct ListingItemView: View {
-    let images = ["1", "2", "3"]
+    let listing: ListingModel
     var body: some View {
     
         VStack(spacing: 8) {
@@ -12,18 +12,18 @@ struct ListingItemView: View {
           
             HStack(alignment: .top) {
                 VStack(alignment: .leading) {
-                    Text("Mumbai, India")
+                    Text("\(listing.city), \(listing.state)")
                         .fontWeight(.semibold)
                         .foregroundStyle(.black)
                     
-                    Text("12 km away")
+                    Text(listing.address)
                         .foregroundStyle(.gray)
                     
                     Text("May 18 - 21")
                         .foregroundStyle(.gray)
                     
                     HStack(spacing: 4) {
-                        Text("₹567")
+                        Text("₹\(listing.pricePerNight)")
                             .fontWeight(.semibold)
                             .foregroundStyle(.black)
                         
@@ -36,7 +36,8 @@ struct ListingItemView: View {
                 
                 HStack(spacing: 2) {
                     Image(systemName: "star.fill")
-                    Text("4.8")
+                    Text("\(String(format: "%g", listing.rating))")
+
                     
                 }
                 .foregroundStyle(.black)
@@ -48,5 +49,5 @@ struct ListingItemView: View {
 }
 
 #Preview {
-    ListingItemView()
+    ListingItemView(listing: DeveloperPreview.shared.listings[1])
 }
