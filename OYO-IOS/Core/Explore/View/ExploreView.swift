@@ -35,7 +35,7 @@ struct ExploreView: View {
                     .padding()
                 }
                 .navigationDestination(for: Int.self){listing in
-                    ListingDetailView(listing: DeveloperPreview.shared.listings[0])
+                    ListingDetailView(lisitng: DeveloperPreview.shared.listings[0])
                         .navigationBarBackButtonHidden(true)
                         .navigationBarHidden(true)
                 }

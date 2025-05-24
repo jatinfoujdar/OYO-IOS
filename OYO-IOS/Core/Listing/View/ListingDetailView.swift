@@ -4,6 +4,15 @@ import MapKit
 struct ListingDetailView: View {
     @Environment(\.dismiss) var dismiss
     let listing: ListingModel
+    @State private var cameraPosition: MapCameraPosition
+    
+    
+    init(lisitng: ListingModel){
+        self.listing = lisitng
+        let region = MKCoordinateRegion(center: CLLocationCoordinate2D(latitude: 25.7602, longitude: -80.1959), span: MKCoordinateSpan(latitudeDelta: 0.1, longitudeDelta: 0.1))
+        
+        self._cameraPosition = State(initialValue: .region(region))
+    }
     
     var body: some View {
         ScrollView{
@@ -62,7 +71,7 @@ struct ListingDetailView: View {
                     
                     HStack{
                         Text("\(listing.numberOfGuests) guests - ")
-                        Text("\(listing.numberOfBedrooms)4 bedroom - ")
+                        Text("\(listing.numberOfBedrooms) bedroom - ")
                         Text("\(listing.numberOfBeds) beds - ")
                         Text("\(listing.numberOfBathroom) baths ")
                     }
@@ -159,7 +168,7 @@ struct ListingDetailView: View {
                 Text("Where you'll be")
                     .font(.headline)
                 
-                Map()
+                Map(position: $cameraPosition)
                     .frame(height: 200)
                     .clipShape(RoundedRectangle(cornerRadius: 12))
             }
@@ -211,5 +220,5 @@ struct ListingDetailView: View {
 }
 
 #Preview {
-    ListingDetailView(listing: DeveloperPreview.shared.listings[0] )
+    ListingDetailView(lisitng: DeveloperPreview.shared.listings[0] )
 }
