@@ -9,6 +9,7 @@ import SwiftUI
 
 struct SearchFilterBarView: View {
     var body: some View {
+    
         HStack{
             Image(systemName: "magnifyingglass")
             

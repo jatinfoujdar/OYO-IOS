@@ -192,13 +192,13 @@ struct OffsetKey: PreferenceKey{
 }
 
 
-struct CustomRefreshView_Previews: PreviewProvider {
-    static var previews: some View {
-        RivePullToRefreshView() {
-            MovieUIView()
-        } onRefresh: {
-            try? await Task.sleep(nanoseconds: 3_000_000_000)
-        }
-        .preferredColorScheme(.dark)
-    }
-}
+//struct CustomRefreshView_Previews: PreviewProvider {
+//    static var previews: some View {
+//        RivePullToRefreshView() {
+//
+//        } onRefresh: {
+//            try? await Task.sleep(nanoseconds: 3_000_000_000)
+//        }
+//        .preferredColorScheme(.dark)
+//    }
+//}

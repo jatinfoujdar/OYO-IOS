@@ -6,6 +6,10 @@
 	objectVersion = 77;
 	objects = {
 
+/* Begin PBXBuildFile section */
+		59F8A8A32DE5EB35003FA19D /* RiveRuntime in Frameworks */ = {isa = PBXBuildFile; productRef = 59F8A8A22DE5EB35003FA19D /* RiveRuntime */; };
+/* End PBXBuildFile section */
+
 /* Begin PBXFileReference section */
 		598808732DDA3EC60072E3DA /* OYO-IOS.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "OYO-IOS.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
@@ -23,6 +27,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				59F8A8A32DE5EB35003FA19D /* RiveRuntime in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -65,6 +70,7 @@
 			);
 			name = "OYO-IOS";
 			packageProductDependencies = (
+				59F8A8A22DE5EB35003FA19D /* RiveRuntime */,
 			);
 			productName = "OYO-IOS";
 			productReference = 598808732DDA3EC60072E3DA /* OYO-IOS.app */;
@@ -94,6 +100,9 @@
 			);
 			mainGroup = 5988086A2DDA3EC60072E3DA;
 			minimizedProjectReferenceProxies = 1;
+			packageReferences = (
+				59F8A8A12DE5EB35003FA19D /* XCRemoteSwiftPackageReference "rive-ios" */,
+			);
 			preferredProjectObjectVersion = 77;
 			productRefGroup = 598808742DDA3EC60072E3DA /* Products */;
 			projectDirPath = "";
@@ -324,6 +333,25 @@
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
+
+/* Begin XCRemoteSwiftPackageReference section */
+		59F8A8A12DE5EB35003FA19D /* XCRemoteSwiftPackageReference "rive-ios" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/rive-app/rive-ios";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 6.8.2;
+			};
+		};
+/* End XCRemoteSwiftPackageReference section */
+
+/* Begin XCSwiftPackageProductDependency section */
+		59F8A8A22DE5EB35003FA19D /* RiveRuntime */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 59F8A8A12DE5EB35003FA19D /* XCRemoteSwiftPackageReference "rive-ios" */;
+			productName = RiveRuntime;
+		};
+/* End XCSwiftPackageProductDependency section */
 	};
 	rootObject = 5988086B2DDA3EC60072E3DA /* Project object */;
 }
