@@ -16,8 +16,8 @@ struct IconScrollView: View {
         ("9", "Massage"),
         ("10", "Catering"),
         ("17", "Exercise"),
-        ("25", "Photography"),
-        ("26", "Relax"),
+        ("25", "Relax" ),
+        ("26", "Photography"),
       
     ]
 

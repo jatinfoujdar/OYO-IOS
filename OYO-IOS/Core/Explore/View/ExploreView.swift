@@ -25,8 +25,10 @@ struct ExploreView: View {
                             }
 
                         CityTripView()
+                           
                         AirbnbHomeView()
-
+                            .padding(.vertical)
+                        
                         LazyVStack(spacing: 35) {
                             ForEach(viewModel.listings) { listing in
                                 NavigationLink(value: listing) {
