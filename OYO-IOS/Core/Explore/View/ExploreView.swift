@@ -24,8 +24,11 @@ struct ExploreView: View {
                                 showDestinationSearchView.toggle()
                             }
                         }
-                    IconScrollView()
-                        .padding(.horizontal)
+                
+                    
+                    CityTripView()
+                     
+                    AirbnbHomeView()
                     
                     LazyVStack(spacing: 35){
                         ForEach(viewModel.listings){listing in
@@ -38,12 +41,14 @@ struct ExploreView: View {
                     }
                     .padding()
                 }
-                .navigationDestination(for: Int.self){listing in
-                    ListingDetailView(lisitng: DeveloperPreview.shared.listings[0])
+                .navigationDestination(for: ListingModel.self) { listing in
+                    ListingDetailView(listing: listing)
                         .navigationBarBackButtonHidden(true)
                         .navigationBarHidden(true)
                 }
+                
             }
+            
         }
     }
 }

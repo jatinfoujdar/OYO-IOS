@@ -11,12 +11,14 @@ struct IconScrollView: View {
         ("12", "Home"),
         ("22", "Experience"),
         ("23", "Service"),
+        ("55", "Flight"),
         ("7", "Spa Treatments"),
         ("9", "Massage"),
         ("10", "Catering"),
         ("17", "Exercise"),
         ("25", "Photography"),
         ("26", "Relax"),
+      
     ]
 
     var body: some View {

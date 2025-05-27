@@ -7,14 +7,15 @@ struct ListingDetailView: View {
     @State private var cameraPosition: MapCameraPosition
     
     
-    init(lisitng: ListingModel){
-        self.listing = lisitng
+    init(listing: ListingModel) {
+        self.listing = listing
         let region = MKCoordinateRegion(
-            center: lisitng.city == "Los Angeles" ? .losAngeles : .miami,
+            center: listing.city == "Los Angeles" ? .losAngeles : .miami,
             span: MKCoordinateSpan(latitudeDelta: 0.1, longitudeDelta: 0.1))
         
         self._cameraPosition = State(initialValue: .region(region))
     }
+
     
     var body: some View {
         ScrollView{
@@ -222,5 +223,5 @@ struct ListingDetailView: View {
 }
 
 #Preview {
-    ListingDetailView(lisitng: DeveloperPreview.shared.listings[0] )
+    ListingDetailView(listing: DeveloperPreview.shared.listings[0] )
 }

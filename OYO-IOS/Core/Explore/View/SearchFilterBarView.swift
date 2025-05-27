@@ -38,10 +38,9 @@ struct SearchFilterBarView: View {
                 .shadow(color: .black.opacity(0.4),radius: 2)
             
         }
-        
-      
-        
-        .padding()
+        .padding(.horizontal)
+        IconScrollView()
+          
     }
 }
 
