@@ -19,7 +19,7 @@ struct ListingDetailView: View {
     var body: some View {
         ScrollView{
             ZStack(alignment: .topLeading){
-                ListingImageCraouselView()
+                ListingImageCarouselView()
                     .frame(height: 320)
             
                 Button{

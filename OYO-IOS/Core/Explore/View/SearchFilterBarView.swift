@@ -28,6 +28,7 @@ struct SearchFilterBarView: View {
                 Image(systemName: "line.3.horizontal.decrease.circle")
                     .foregroundStyle(.black)
             })
+            
         }
         .padding()
         .overlay{
@@ -35,7 +36,11 @@ struct SearchFilterBarView: View {
                 .stroke(lineWidth: 0.5)
                 .foregroundStyle(Color(.systemGray4))
                 .shadow(color: .black.opacity(0.4),radius: 2)
+            
         }
+        
+      
+        
         .padding()
     }
 }

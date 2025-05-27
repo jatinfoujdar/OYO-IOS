@@ -17,12 +17,16 @@ struct ExploreView: View {
                 DestinationSearchView(show: $showDestinationSearchView)
             }else{
                 ScrollView{
+                    
                     SearchFilterBarView()
                         .onTapGesture {
                             withAnimation(.snappy){
                                 showDestinationSearchView.toggle()
                             }
                         }
+                    IconScrollView()
+                        .padding(.horizontal)
+                    
                     LazyVStack(spacing: 35){
                         ForEach(viewModel.listings){listing in
                             NavigationLink(value: listing){
