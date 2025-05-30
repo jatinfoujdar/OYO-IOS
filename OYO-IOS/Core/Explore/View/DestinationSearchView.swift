@@ -49,6 +49,7 @@ struct DestinationSearchView: View {
             }
             .padding(.horizontal)
             
+            
             // Location Picker
             VStack(alignment: .leading) {
                 if selectedOptions == .location {
@@ -135,6 +136,7 @@ struct DestinationSearchView: View {
                 } else {
                     CollapsedPickerView(title: "Who", description: "Add guests")
                 }
+                
             }
             .padding()
             .frame(height: selectedOptions == .guests ? 120 : 64)
@@ -145,7 +147,27 @@ struct DestinationSearchView: View {
             .onTapGesture {
                 withAnimation(.snappy) { selectedOptions = .guests }
             }
+            
         }
+        
+        TagView(tags:[
+            "Leh-Ladakh",       // Adventure and high-altitude landscapes
+            "Rishikesh",       // Yoga, rafting, and spiritual retreats
+            "Jaipur",          // Royal heritage and vibrant culture
+            "Goa",             // Beaches, nightlife, and Portuguese architecture
+            "Andaman Islands", // Pristine beaches and marine life
+            "Kutch",           // Rann Utsav and cultural experiences
+            "Spiti Valley",    // Offbeat cold desert and monasteries
+            "Khajuraho",       // UNESCO temples and intricate carvings
+            "Kaziranga",       // Wildlife and rhino sightings
+            "Munnar",          // Tea gardens and misty hills
+            "Aurangabad",      // Ajanta-Ellora caves and historical sites
+            "Shillong",        // Waterfalls and hill station charm
+            "Gokarna",         // Quiet beaches and laid-back vibes
+            "Pondicherry",     // French colonial architecture and beaches
+            "Varanasi"         // Spirituality and Ganga ghats
+        ]
+)
         Spacer()
     }
 }
