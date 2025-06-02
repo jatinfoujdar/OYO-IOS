@@ -1,30 +1,24 @@
-//
-//  DestinationSearchView.swift
-//  OYO-IOS
-//
-//  Created by jatin foujdar on 20/05/25.
-//
-
 import SwiftUI
 
-enum DestinationSearchOptions{
+enum DestinationSearchOptions {
     case location
     case dates
     case guests
 }
 
 struct DestinationSearchView: View {
-    @Binding var show : Bool
-    @State private var destination = ""
+    @ObservedObject var viewModel: ExploreViewModel
+    @Binding var show: Bool
+  
     @State private var selectedOptions: DestinationSearchOptions = .location
     @State private var startDate = Date()
     @State private var endDate = Date()
     @State private var numGuests = 0
    
-    
+
     var body: some View {
-        VStack(alignment: .leading) {
-            // Top bar with X and Clear buttons
+        VStack {
+            // Top Bar
             HStack {
                 Button {
                     withAnimation(.snappy) {
@@ -35,164 +29,159 @@ struct DestinationSearchView: View {
                         .imageScale(.large)
                         .foregroundStyle(.black)
                 }
-                
+
                 Spacer()
-                
-                if !destination.isEmpty{
+
+                if !viewModel.searchLocation.isEmpty || numGuests > 0 || startDate != endDate {
                     Button("Clear") {
-                        destination = ""
+                        viewModel.searchLocation = ""
+                        startDate = Date()
+                        endDate = Date()
+                        numGuests = 0
+                        selectedOptions = .location
                     }
                     .foregroundStyle(.black)
                     .font(.subheadline)
                     .fontWeight(.semibold)
                 }
             }
-            .padding(.horizontal)
-            
-            
-            // Location Picker
-            VStack(alignment: .leading) {
-                if selectedOptions == .location {
-                    Text("Where to?")
-                        .font(.title2)
-                        .fontWeight(.semibold)
-                    
-                    HStack {
-                        Image(systemName: "magnifyingglass")
-                            .imageScale(.small)
-                        
-                        TextField("Search destinations", text: $destination)
-                            .font(.subheadline)
+            .padding()
+
+            ScrollView {
+                VStack(spacing: 16) {
+                    // Location Picker
+                    PickerContainer(selected: selectedOptions == .location, onTap: {
+                        selectedOptions = .location
+                    }) {
+                        if selectedOptions == .location {
+                            Text("Where to?")
+                                .font(.title2)
+                                .fontWeight(.semibold)
+
+                            HStack {
+                                Image(systemName: "magnifyingglass")
+                                TextField("Search destinations", text: $viewModel.searchLocation)
+                                    .font(.subheadline)
+                                    .onSubmit {
+                                        viewModel.updateListingForLocation()
+                                        show.toggle()
+                                    }
+                            }
+                            .frame(height: 44)
+                            .padding(.horizontal)
+                            .overlay(
+                                RoundedRectangle(cornerRadius: 8)
+                                    .stroke(Color(.systemGray4), lineWidth: 1)
+                            )
+                        } else {
+                            CollapsedPickerView(title: "Where", description: viewModel.searchLocation.isEmpty ? "Add destination" : viewModel.searchLocation)
+                        }
                     }
-                    .frame(height: 44)
-                    .padding(.horizontal)
-                    .overlay(
-                        RoundedRectangle(cornerRadius: 8)
-                            .stroke(lineWidth: 1.0)
-                            .foregroundStyle(Color(.systemGray4))
-                    )
-                } else {
-                    CollapsedPickerView(title: "Where", description: "Add destination")
-                }
-            }
-            .padding()
-            .frame(height: selectedOptions == .location ? 120 : 64)
-            .background(.white)
-            .clipShape(RoundedRectangle(cornerRadius: 12))
-            .padding()
-            .shadow(radius: 10)
-            .onTapGesture {
-                withAnimation(.snappy) { selectedOptions = .location }
-            }
-            
-            // Dates Picker
-            VStack {
-                if selectedOptions == .dates {
-                    Text("When's your trip?")
-                        .font(.title2)
-                        .fontWeight(.semibold)
-                    
-                    VStack(alignment: .leading) {
-                        DatePicker("From", selection: $startDate, displayedComponents: .date)
-                        Divider()
-                        DatePicker("To", selection: $endDate, displayedComponents: .date)
+
+
+
+                    // Dates Picker
+                    PickerContainer(selected: selectedOptions == .dates, onTap: {
+                        selectedOptions = .dates
+                    }) {
+                        if selectedOptions == .dates {
+                            Text("When's your trip?")
+                                .font(.title2)
+                                .fontWeight(.semibold)
+
+                            DatePicker("From", selection: $startDate, displayedComponents: .date)
+                            Divider()
+                            DatePicker("To", selection: $endDate, displayedComponents: .date)
+                        } else {
+                            let dateSummary = startDate == endDate ? "Add dates" :
+                                "\(formattedDate(startDate)) - \(formattedDate(endDate))"
+                            CollapsedPickerView(title: "When", description: dateSummary)
+                        }
                     }
-                    .foregroundStyle(.gray)
-                    .font(.subheadline)
-                    .fontWeight(.semibold)
-                    
-                } else {
-                    CollapsedPickerView(title: "When", description: "Add dates")
-                }
-            }
-            .padding()
-            .frame(height: selectedOptions == .dates ? 180 : 64)
-            .background(.white)
-            .clipShape(RoundedRectangle(cornerRadius: 12))
-            .padding()
-            .shadow(radius: 10)
-            .onTapGesture {
-                withAnimation(.snappy) { selectedOptions = .dates }
-            }
-            
-            // Guests Picker
-            VStack(alignment: .leading) {
-                if selectedOptions == .guests {
-                    Text("Who's coming")
-                        .font(.title2)
-                        .fontWeight(.semibold)
-                    
-                    Stepper {
-                        Text("\(numGuests) Adults")
-                    } onIncrement: {
-                        numGuests += 1
-                    } onDecrement: {
-                        guard numGuests > 0 else { return }
-                        numGuests -= 1
+
+                    // Guests Picker
+                    PickerContainer(selected: selectedOptions == .guests, onTap: {
+                        selectedOptions = .guests
+                    }) {
+                        if selectedOptions == .guests {
+                            Text("Who's coming?")
+                                .font(.title2)
+                                .fontWeight(.semibold)
+
+                            Stepper {
+                                Text("\(numGuests) Adult\(numGuests == 1 ? "" : "s")")
+                            } onIncrement: {
+                                numGuests += 1
+                            } onDecrement: {
+                                if numGuests > 0 { numGuests -= 1 }
+                            }
+                        } else {
+                            let guestDesc = numGuests == 0 ? "Add guests" : "\(numGuests) guest\(numGuests == 1 ? "" : "s")"
+                            CollapsedPickerView(title: "Who", description: guestDesc)
+                        }
                     }
-                    .font(.subheadline)
-                    .fontWeight(.semibold)
+
+                    // Tags View
+                  
                     
-                } else {
-                    CollapsedPickerView(title: "Who", description: "Add guests")
                 }
-                
+                .padding()
             }
-            .padding()
-            .frame(height: selectedOptions == .guests ? 120 : 64)
-            .background(.white)
-            .clipShape(RoundedRectangle(cornerRadius: 12))
-            .padding()
-            .shadow(radius: 10)
-            .onTapGesture {
-                withAnimation(.snappy) { selectedOptions = .guests }
-            }
-            
+
+            Spacer()
         }
-        
-        TagView(tags:[
-            "Leh-Ladakh",       // Adventure and high-altitude landscapes
-            "Rishikesh",       // Yoga, rafting, and spiritual retreats
-            "Jaipur",          // Royal heritage and vibrant culture
-            "Goa",             // Beaches, nightlife, and Portuguese architecture
-            "Andaman Islands", // Pristine beaches and marine life
-            "Kutch",           // Rann Utsav and cultural experiences
-            "Spiti Valley",    // Offbeat cold desert and monasteries
-            "Khajuraho",       // UNESCO temples and intricate carvings
-            "Kaziranga",       // Wildlife and rhino sightings
-            "Munnar",          // Tea gardens and misty hills
-            "Aurangabad",      // Ajanta-Ellora caves and historical sites
-            "Shillong",        // Waterfalls and hill station charm
-            "Gokarna",         // Quiet beaches and laid-back vibes
-            "Pondicherry",     // French colonial architecture and beaches
-            "Varanasi"         // Spirituality and Ganga ghats
-        ]
-)
-        Spacer()
+        .background(Color(.systemGroupedBackground))
+    }
+
+    private func formattedDate(_ date: Date) -> String {
+        let formatter = DateFormatter()
+        formatter.dateStyle = .medium
+        return formatter.string(from: date)
     }
 }
 
-#Preview {
-    DestinationSearchView(show: .constant(false))
-}
+// MARK: - PickerContainer (Reusable View Wrapper)
+struct PickerContainer<Content: View>: View {
+    let selected: Bool
+    let onTap: () -> Void
+    @ViewBuilder let content: () -> Content
 
-struct CollapsedPickerView: View {
-    let title : String
-    let description: String
-    
     var body: some View {
-        VStack{
-            HStack{
-                Text(title)
-                    .foregroundStyle(.gray)
-                
-                Spacer()
-                
-                Text(description)
+        VStack(alignment: .leading, spacing: 8, content: content)
+            .padding()
+            .frame(height: selected ? nil : 64, alignment: .top)
+            .background(Color.white)
+            .clipShape(RoundedRectangle(cornerRadius: 12))
+            .shadow(radius: 5)
+            .onTapGesture {
+                withAnimation(.snappy) {
+                    onTap()
+                }
             }
-            .font(.subheadline)
-            .fontWeight(.semibold)
-            
-        }
     }
+}
+
+// MARK: - CollapsedPickerView
+struct CollapsedPickerView: View {
+    let title: String
+    let description: String
+
+    var body: some View {
+        HStack {
+            Text(title)
+                .foregroundStyle(.gray)
+
+            Spacer()
+
+            Text(description)
+                .foregroundStyle(.black)
+        }
+        .font(.subheadline)
+        .fontWeight(.semibold)
+    }
+}
+
+// MARK: - Preview
+#Preview {
+    DestinationSearchView(viewModel: ExploreViewModel(service: ExploreService()), show: .constant(true))
 }
