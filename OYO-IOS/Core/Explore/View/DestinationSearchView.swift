@@ -22,7 +22,9 @@ struct DestinationSearchView: View {
             HStack {
                 Button {
                     withAnimation(.snappy) {
+                        viewModel.updateListingForLocation()
                         show.toggle()
+                        
                     }
                 } label: {
                     Image(systemName: "xmark.circle")
@@ -35,6 +37,7 @@ struct DestinationSearchView: View {
                 if !viewModel.searchLocation.isEmpty || numGuests > 0 || startDate != endDate {
                     Button("Clear") {
                         viewModel.searchLocation = ""
+                        viewModel.updateListingForLocation()
                         startDate = Date()
                         endDate = Date()
                         numGuests = 0
