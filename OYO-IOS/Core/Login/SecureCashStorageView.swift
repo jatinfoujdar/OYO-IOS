@@ -8,50 +8,8 @@ struct SecureCashStorageView: View {
                 .ignoresSafeArea()
             
             VStack(spacing: 0) {
-                // Status bar area
-                HStack {
-                    Text("9:41")
-                        .font(.system(size: 17, weight: .semibold))
-                        .foregroundColor(.white)
-                    
-                    Spacer()
-                    
-                    HStack(spacing: 4) {
-                        // Signal bars
-                        HStack(spacing: 2) {
-                            ForEach(0..<4) { index in
-                                RoundedRectangle(cornerRadius: 1)
-                                    .fill(.white)
-                                    .frame(width: 3, height: CGFloat(4 + index * 2))
-                            }
-                        }
-                        
-                        // WiFi icon
-                        Image(systemName: "wifi")
-                            .font(.system(size: 15, weight: .medium))
-                            .foregroundColor(.white)
-                        
-                        // Battery
-                        Image(systemName: "battery.100")
-                            .font(.system(size: 15, weight: .medium))
-                            .foregroundColor(.white)
-                    }
-                }
-                .padding(.horizontal, 20)
-                .padding(.top, 8)
+  
                 
-                Spacer()
-                
-                // Close button
-                HStack {
-                    Spacer()
-                    Button(action: {}) {
-                        Image(systemName: "xmark")
-                            .font(.system(size: 16, weight: .medium))
-                            .foregroundColor(.gray)
-                    }
-                    .padding(.trailing, 20)
-                }
                 
                 Spacer()
                 
@@ -63,7 +21,7 @@ struct SecureCashStorageView: View {
                         RoundedRectangle(cornerRadius: 12)
                             .fill(
                                 LinearGradient(
-                                    colors: [Color.gray.opacity(0.8), Color.gray.opacity(0.4)],
+                                    colors: [Color.red.opacity(0.8), Color.gray.opacity(0.4)],
                                     startPoint: .topLeading,
                                     endPoint: .bottomTrailing
                                 )
@@ -80,7 +38,7 @@ struct SecureCashStorageView: View {
                         Circle()
                             .fill(
                                 LinearGradient(
-                                    colors: [Color.white, Color.gray.opacity(0.7)],
+                                    colors: [Color.green, Color.gray.opacity(0.7)],
                                     startPoint: .topLeading,
                                     endPoint: .bottomTrailing
                                 )

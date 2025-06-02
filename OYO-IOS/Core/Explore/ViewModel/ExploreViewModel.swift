@@ -26,4 +26,15 @@ class ExploreViewModel: ObservableObject{
             print("falid to fetch listing \(error.localizedDescription)")
         }
     }
+    
+    
+    func updateListingForLocation(_ location: String){
+        let filterListings = listings.filter({
+            $0.city.lowercased() == location.lowercased() ||
+            $0.state.lowercased() == location.lowercased()
+        })
+        
+        self.listings = filterListings.isEmpty ? listings : filterListings
+    }
+    
 }
