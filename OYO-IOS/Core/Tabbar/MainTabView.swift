@@ -8,21 +8,41 @@
 import SwiftUI
 
 struct MainTabView: View {
+    @AppStorage("selectTab") var selectTab : Tab = .chat
     var body: some View {
-        
-        TabView{
-            ExploreView()
-                .tabItem{Label("Explore", systemImage: "magnifyingglass")}
+        ZStack{
+            Group{
+                switch selectTab {
+                case .chat:
+                    ExploreView()
+                    
+                case .search:
+                    WishListView()
+                    
+                case .timer:
+                    Text("User")
             
-            WishListView()
-                .tabItem{Label("Wishlists", systemImage: "heart")}
+                case .bell:
+                    Text("Bell")
+                case .user:
             
-            ProfileView()
-                .tabItem{Label("Profile", systemImage: "person.circle")}
+                    ProfileView()
+                }
+            }
+            .safeAreaInset(edge: .bottom){
+                Color.clear.frame(height: 80)
+            }
+            
+            TapBarView()
         }
+     
     }
 }
+
 
 #Preview {
     MainTabView()
 }
+
+
+  
