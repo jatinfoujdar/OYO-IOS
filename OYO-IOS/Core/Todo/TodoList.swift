@@ -8,6 +8,7 @@
 import SwiftUI
 
 struct TodoList: View {
+    @State private var newItem = ""
     var body: some View {
         VStack{
             Text("Wander - List")
@@ -19,6 +20,25 @@ struct TodoList: View {
                 .foregroundStyle(.white)
                 .font(.subheadline)
                 .fontWeight(.medium)
+            
+            HStack{
+                TextField(" ", text: $newItem)
+                    .frame(height: 55)
+                    .padding(.horizontal)
+                    .textFieldStyle(PlainTextFieldStyle())
+                    .font(.headline.weight(.medium))
+                    .foregroundStyle(.white)
+                    .cornerRadius(16)
+                    .overlay(RoundedRectangle(cornerRadius: 16).stroke(Color.white.opacity(0.2)))
+                Button(action: {
+                    
+                }){
+                    Text("Add")
+                        .foregroundStyle(.white)
+                        .font(.headline.bold())
+                        .padding(.trailing)
+                }
+            }
         }
         .padding()
         .background(.black)
