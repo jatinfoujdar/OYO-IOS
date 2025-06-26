@@ -33,7 +33,8 @@ struct ExploreView: View {
                         StickyFilterView()
                         
                         LazyVStack(spacing: 35) {
-                            ForEach(viewModel.listings) { listing in
+                            ForEach(0..<10000, id: \.self) { index in
+                                let listing = viewModel.listings[index % viewModel.listings.count]
                                 NavigationLink(value: listing) {
                                     ListingItemView(listing: listing)
                                         .frame(height: 400)
@@ -43,9 +44,9 @@ struct ExploreView: View {
                         }
                         .padding(.top)
                         .padding(.horizontal)
+
                     }
                 } onRefresh: {
-                    // Simulate refresh delay and refetch data
                     try? await Task.sleep(nanoseconds: 3_000_000_000)
 
                 }

@@ -41,6 +41,7 @@ struct TagView: View {
                     }
             }
         }
+        .background(.ultraThinMaterial)
         .background(viewHeightReader($totalHeight))
     }
 

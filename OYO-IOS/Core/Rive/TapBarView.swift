@@ -36,7 +36,6 @@ struct TapBarView: View {
             }
             .padding(12)
             .background(Color("Background 2").opacity(0.8))
-            .background(.ultraThinMaterial)
             .mask(RoundedRectangle(cornerRadius: 24, style: .continuous))
             .shadow(color: Color("Background 2").opacity(0.3),radius: 20, x: 0, y: 20)
             .overlay(
