@@ -44,14 +44,15 @@ struct TodoTitle: View {
                     }
                 }
         )
-        .overlay(
-            HStack {
-                riveViewModel.view()
-                    .scaleEffect(x: -1, y: 1) // This flips the animation horizontally
-                    .frame(width: screenWidth, height: 150)
-                Spacer()
-            }
-        )
+        .overlay{
+            riveViewModel.view()
+                .scaleEffect(x: -3, y: 3)
+                .frame(width: screenWidth, height: 250)
+//                                .aspectRatio(contentMode: .fit)
+                .offset(x: 80, y: -55)
+                .allowsHitTesting(false)
+            
+        }
 
     }
 }
