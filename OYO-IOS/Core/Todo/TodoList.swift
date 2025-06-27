@@ -15,48 +15,54 @@ struct TodoList: View {
            TodoModel(title: "Call mom")
     ]
     
-    var body: some View {
-        VStack {
-            VStack{
-                Text("Wander - List")
-                    .foregroundStyle(.blue)
-                    .font(.largeTitle)
-                    .fontWeight(.bold)
-                
-                Text("Scale of the day")
-                    .foregroundStyle(.white)
-                    .font(.subheadline)
-                    .fontWeight(.medium)
-                
-                HStack{
-                    TextField(" ", text: $newItemTitle, onCommit: addItem)
-                        .frame(height: 55)
-                        .padding(.horizontal)
-                        .textFieldStyle(PlainTextFieldStyle())
-                        .font(.headline.weight(.medium))
+        var body: some View {
+            VStack(spacing: 16) {
+                VStack(spacing: 12) {
+                    Text("Wander - List")
+                        .foregroundStyle(.blue)
+                        .font(.largeTitle)
+                        .fontWeight(.bold)
+
+                    Text("Scale of the day")
                         .foregroundStyle(.white)
-                        .cornerRadius(16)
-                        .overlay(RoundedRectangle(cornerRadius: 16).stroke(Color.white.opacity(0.2)))
-                    Button(action: addItem){
-                        
-                        Text("Add")
+                        .font(.subheadline)
+                        .fontWeight(.medium)
+
+                    HStack {
+                        TextField("Add a task...", text: $newItemTitle, onCommit: addItem)
+                            .frame(height: 55)
+                            .padding(.horizontal)
+                            .textFieldStyle(PlainTextFieldStyle())
+                            .font(.headline.weight(.medium))
                             .foregroundStyle(.white)
-                            .font(.headline.bold())
-                            .padding(.trailing)
+                            .cornerRadius(16)
+                            .overlay(RoundedRectangle(cornerRadius: 16).stroke(Color.white.opacity(0.2)))
+
+                        Button(action: addItem) {
+                            Text("Add")
+                                .foregroundStyle(.white)
+                                .font(.headline.bold())
+                                .padding(.trailing)
+                        }
                     }
                 }
+                .padding()
+                .background(.black)
+                .cornerRadius(16)
+
+                ScrollView {
+                    LazyVStack(spacing: 10) {
+                        ForEach(todoItems) { todoItem in
+                            TodoTitle(item: todoItem)
+                        }
+                    }
+                }
+
+                Spacer()
             }
             .padding()
-            .background(.black)
-            .cornerRadius(16)
         }
-        ScrollView{
-            ForEach(todoItems) { todoItem in
-                TodoTitle(item: todoItem)
-            }
-        }
-        
-    }
+
     
     func addItem(){
         if !newItemTitle.isEmpty{

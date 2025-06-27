@@ -28,7 +28,7 @@ struct GlassmorphismView: View {
         }
         .frame(maxWidth: .infinity, maxHeight: .infinity)
         .multilineTextAlignment(.leading)
-        .ignoresSafeArea()
+        
     }
 }
 
