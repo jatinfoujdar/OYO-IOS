@@ -12,17 +12,20 @@ struct TodoTitle: View {
     let item: TodoModel
     
     @State var currentDragOffset: CGFloat = 0
-    @StateObject var riveViewModel = RiveViewModel(fileName: "alligator_swipe")
+    @StateObject var riveViewModel = RiveViewModel(fileName: "alligator_swipe", fit: .contain)
     
+    
+    let screenWidth = UIScreen.main.bounds.width
     
     var body: some View {
         HStack{
             Text(item.title)
                 .foregroundStyle(.white)
                 .font(.headline)
+            
             Spacer()
         }
-        .padding()
+        .padding(.all)
         .background(Color.blue)
         .cornerRadius(16)
         .shadow(color: .black.opacity(0.2), radius: 6, x: 3, y: 3)
@@ -41,6 +44,15 @@ struct TodoTitle: View {
                     }
                 }
         )
+        .overlay(
+            HStack {
+                riveViewModel.view()
+                    .scaleEffect(x: -1, y: 1) // This flips the animation horizontally
+                    .frame(width: screenWidth, height: 150)
+                Spacer()
+            }
+        )
+
     }
 }
 
