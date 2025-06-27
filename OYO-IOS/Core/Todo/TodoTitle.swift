@@ -13,9 +13,16 @@ struct TodoTitle: View {
     
     @State var currentDragOffset: CGFloat = 0
     @StateObject var riveViewModel = RiveViewModel(fileName: "alligator_swipe", fit: .contain)
-    
+    @State var alligatorDragOffset: CGFloat = 0
+    @State var endingDragOffset: CGFloat = 0
     
     let screenWidth = UIScreen.main.bounds.width
+    
+    
+    func updateAlligator(_ value: Double){
+        riveViewModel.setInput("scroll", value: value)
+    }
+    
     
     var body: some View {
         HStack{
@@ -34,13 +41,20 @@ struct TodoTitle: View {
         .gesture(
             DragGesture()
                 .onChanged{value in
+                    
+                    let percentage = value.translation.width / screenWidth * 200
+                    updateAlligator(percentage)
+                    
+                    
                     withAnimation(.spring()){
                         currentDragOffset = value.translation.width
+                        alligatorDragOffset = value.translation.width * 3
                     }
                 }
                 .onEnded{vlaue in
                     withAnimation(.spring()){
                         currentDragOffset = 0
+                        alligatorDragOffset = 0
                     }
                 }
         )
@@ -49,7 +63,8 @@ struct TodoTitle: View {
                 .scaleEffect(x: -3, y: 3)
                 .frame(width: screenWidth, height: 250)
 //                                .aspectRatio(contentMode: .fit)
-                .offset(x: 80, y: -55)
+                .offset(x: 82, y: -55)
+                .offset(x: screenWidth - alligatorDragOffset)
                 .allowsHitTesting(false)
             
         }
