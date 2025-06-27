@@ -8,7 +8,13 @@
 import SwiftUI
 
 struct TodoList: View {
-    @State private var newItem = ""
+    @State private var newItemTitle = ""
+    @State private var todoItems: [TodoModel] = [
+           TodoModel(title: "Buy groceries"),
+           TodoModel(title: "Finish SwiftUI project"),
+           TodoModel(title: "Call mom")
+    ]
+    
     var body: some View {
         VStack {
             VStack{
@@ -23,7 +29,7 @@ struct TodoList: View {
                     .fontWeight(.medium)
                 
                 HStack{
-                    TextField(" ", text: $newItem)
+                    TextField(" ", text: $newItemTitle, onCommit: addItem)
                         .frame(height: 55)
                         .padding(.horizontal)
                         .textFieldStyle(PlainTextFieldStyle())
@@ -45,14 +51,22 @@ struct TodoList: View {
             .cornerRadius(16)
         }
         ScrollView{
-            
+            ForEach(todoItems) { todoItem in
+                TodoTitle(item: todoItem)
+            }
         }
         
     }
     
     func addItem(){
-        
+        if !newItemTitle.isEmpty{
+            let newItem = TodoModel(title: newItemTitle)
+            todoItems.append(newItem)
+            newItemTitle = ""
+        }
     }
+    
+    
 }
 
 #Preview {
