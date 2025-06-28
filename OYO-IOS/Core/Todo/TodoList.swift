@@ -53,7 +53,7 @@ struct TodoList: View {
                 ScrollView {
                     LazyVStack(spacing: 10) {
                         ForEach(todoItems) { todoItem in
-                            TodoTitle(item: todoItem)
+                            TodoTitle(item: todoItem, onComplete: { item in deleteItem(item: todoItem) })
                         }
                     }
                 }
@@ -72,6 +72,12 @@ struct TodoList: View {
         }
     }
     
+    func deleteItem(item: TodoModel) {
+        if let index = todoItems.firstIndex(where: { $0.id == item.id }) {
+            todoItems.remove(at: index)
+        }
+    }
+
     
 }
 
