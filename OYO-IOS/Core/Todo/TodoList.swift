@@ -53,7 +53,7 @@ struct TodoList: View {
                         button.view()
                                        .frame(width: 236, height: 64)
                                        .overlay(
-                                           Text("Add")
+                                           Text("Add task")
                                                .offset(x: 4, y: 4)
                                                .font(.headline)
                                        )

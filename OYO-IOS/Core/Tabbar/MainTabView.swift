@@ -20,12 +20,12 @@ struct MainTabView: View {
                     WishListView()
                     
                 case .timer:
-                    Text("User")
-            
+                    GlassmorphismView()
+           
                 case .bell:
                     Text("Bell")
+                    
                 case .user:
-            
                     ProfileView()
                 }
             }
