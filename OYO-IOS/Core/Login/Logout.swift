@@ -1,236 +1,143 @@
 import SwiftUI
 
-struct Logout: View {
-    @State private var username = ""
-    @State private var email = "user@email@gmail.com"
-    @State private var password = ""
-    @State private var isPasswordVisible = false
-    
+// Re-using the ListeningView struct from the previous immersive artifact.
+// You would typically have this in a separate file or accessible scope.
+struct ListeningView: View {
+    // State variable to control the overall visibility and fade animation of the component.
+    @Binding var showComponent: Bool // Changed to Binding to allow external control
+
+    // State variable to hold the current heights of the individual sound wave bars.
+    @State private var barHeights: [CGFloat] = Array(repeating: 4.0, count: 5)
+
+    // State variable to control the phase of the wave animation, creating a continuous flow.
+    @State private var wavePhase: Int = 0
+
+    // Constants for bar dimensions and animation range.
+    private let barWidth: CGFloat = 8
+    private let minBarHeight: CGFloat = 4
+    private let maxBarHeight: CGFloat = 30
+
+    // A predefined pattern for the sound wave animation, creating a more natural look.
+    private let wavePattern: [CGFloat] = [4, 10, 20, 30, 20, 10, 4]
+
+    // Timers for managing the animations. Using `Timer` for bar animation and `Task` for overall sequence.
+    @State private var barAnimationTimer: Timer?
+
     var body: some View {
-        ZStack {
-            // Dark background
-            Color(red: 0.15, green: 0.15, blue: 0.2)
-                .ignoresSafeArea()
-            
-            VStack(spacing: 0) {
-                // Header
-                HStack {
-                    Button(action: {
-                        // Back action
-                    }) {
-                        Image(systemName: "chevron.left")
-                            .foregroundColor(.white)
-                            .font(.title2)
-                    }
-                    Spacer()
+        VStack {
+            // "Listening..." Text
+            Text("Listening...")
+                .font(.system(size: 24, weight: .semibold)) // Bold and clear font
+                .foregroundColor(.white) // White text color
+                .padding(.bottom, 10) // Spacing below the text
+
+            // Horizontal stack for the sound wave bars
+            HStack(spacing: 4) {
+                // Loop to create individual capsule bars
+                ForEach(0..<barHeights.count, id: \.self) { index in
+                    Capsule() // Rounded rectangular shape for the bars
+                        .fill(Color.white) // White fill color
+                        .frame(width: barWidth, height: barHeights[index]) // Set width and animated height
+                        .animation(.easeInOut(duration: 0.3), value: barHeights[index]) // Smooth animation for height changes
                 }
-                .padding(.horizontal, 20)
-                .padding(.top, 10)
-                
-                Spacer()
-                
-                VStack(spacing: 30) {
-                    // Title
-                    VStack(spacing: 8) {
-                        Text("Create an")
-                            .font(.largeTitle)
-                            .fontWeight(.bold)
-                            .foregroundColor(.white)
-                        
-                        Text("account")
-                            .font(.largeTitle)
-                            .fontWeight(.bold)
-                            .foregroundColor(.white)
+            }
+        }
+        .padding(20) // Padding around the content inside the component
+        .background(Color.black.opacity(0.8)) // Semi-transparent dark background
+        .cornerRadius(15) // Rounded corners for the component's background
+        .opacity(showComponent ? 1.0 : 0.0) // Control overall visibility with opacity
+        .animation(.easeInOut(duration: 0.5), value: showComponent) // Smooth animation for opacity changes
+        .onChange(of: showComponent) { newValue in
+            if newValue {
+                startBarAnimation() // Start bar animation when component becomes visible
+            } else {
+                stopBarAnimation() // Stop bar animation when component becomes hidden
+            }
+        }
+        .onDisappear {
+            // Invalidate timers and cancel tasks when the view disappears to prevent memory leaks
+            stopBarAnimation()
+        }
+    }
+
+    // Function to manage the continuous animation of the sound wave bars.
+    private func startBarAnimation() {
+        // Ensure only one timer is active
+        if barAnimationTimer == nil {
+            barAnimationTimer = Timer.scheduledTimer(withTimeInterval: 0.15, repeats: true) { _ in
+                withAnimation {
+                    // Advance the wave phase to create a continuous flow
+                    wavePhase = (wavePhase + 1) % wavePattern.count
+                    // Update each bar's height based on the wave pattern and current phase
+                    for i in 0..<barHeights.count {
+                        let patternIndex = (wavePhase + i) % wavePattern.count
+                        barHeights[i] = wavePattern[patternIndex]
                     }
-                    
-                    // Sign up with text
-                    Text("Sign up with:")
-                        .foregroundColor(.gray)
-                        .font(.subheadline)
-                    
-                    // Social login buttons
-                    VStack(spacing: 16) {
-                        SocialLoginButton(
-                            icon: "google",
-                            text: "Continue with Google",
-                            action: {}
-                        )
-                        
-                        SocialLoginButton(
-                            icon: "facebook",
-                            text: "Continue with Facebook",
-                            action: {}
-                        )
-                        
-                        SocialLoginButton(
-                            icon: "apple",
-                            text: "Continue with Apple",
-                            action: {}
-                        )
-                    }
-                    
-                    // Form fields
-                    VStack(spacing: 20) {
-                        CustomTextField(
-                            placeholder: "Username",
-                            text: $username
-                        )
-                        
-                        CustomTextField(
-                            placeholder: "Email",
-                            text: $email
-                        )
-                        
-                        CustomPasswordField(
-                            placeholder: "Password",
-                            text: $password,
-                            isVisible: $isPasswordVisible
-                        )
-                    }
-                    .padding(.top, 20)
-                    
-                    // Register button
-                    Button(action: {
-                        // Register action
-                    }) {
-                        Text("Register")
-                            .font(.headline)
-                            .fontWeight(.semibold)
-                            .foregroundColor(.white)
-                            .frame(maxWidth: .infinity)
-                            .frame(height: 50)
-                            .background(
-                                LinearGradient(
-                                    colors: [Color.blue, Color.blue.opacity(0.8)],
-                                    startPoint: .leading,
-                                    endPoint: .trailing
-                                )
-                            )
-                            .cornerRadius(25)
-                    }
-                    .padding(.top, 20)
-                    
-                    // Bottom text
-                    Text("I bought ticket, but I don't have an account")
-                        .foregroundColor(.gray)
-                        .font(.footnote)
-                        .padding(.top, 20)
                 }
-                .padding(.horizontal, 30)
-                
-                Spacer()
             }
         }
     }
-}
 
-struct SocialLoginButton: View {
-    let icon: String
-    let text: String
-    let action: () -> Void
-    
-    var body: some View {
-        Button(action: action) {
-            HStack(spacing: 12) {
-                Image(systemName: iconName)
-                    .foregroundColor(.white)
-                    .font(.title3)
-                
-                Text(text)
-                    .foregroundColor(.white)
-                    .font(.subheadline)
-                    .fontWeight(.medium)
-                
-                Spacer()
-            }
-            .frame(maxWidth: .infinity)
-            .frame(height: 50)
-            .background(Color.white.opacity(0.1))
-            .cornerRadius(25)
-        }
-    }
-    
-    private var iconName: String {
-        switch icon {
-        case "google":
-            return "globe"
-        case "facebook":
-            return "f.circle.fill"
-        case "apple":
-            return "apple.logo"
-        default:
-            return "questionmark"
-        }
+    // Function to stop the bar animation.
+    private func stopBarAnimation() {
+        barAnimationTimer?.invalidate()
+        barAnimationTimer = nil
+        // Reset bar heights when stopping animation
+        barHeights = Array(repeating: minBarHeight, count: barHeights.count)
     }
 }
 
-struct CustomTextField: View {
-    let placeholder: String
-    @Binding var text: String
-    
-    var body: some View {
-        VStack(alignment: .leading, spacing: 8) {
-            Text(placeholder)
-                .foregroundColor(.white)
-                .font(.subheadline)
-                .fontWeight(.medium)
-            
-            TextField("", text: $text)
-                .foregroundColor(.gray)
-                .font(.subheadline)
-                .padding(.bottom, 8)
-                .overlay(
-                    Rectangle()
-                        .frame(height: 1)
-                        .foregroundColor(.gray.opacity(0.3)),
-                    alignment: .bottom
-                )
-        }
-    }
-}
 
-struct CustomPasswordField: View {
-    let placeholder: String
-    @Binding var text: String
-    @Binding var isVisible: Bool
-    
+struct SearchView: View {
+    // State for the text in the search bar
+    @State private var searchText: String = ""
+    // State to control the visibility of the ListeningView
+    @State private var isListening: Bool = false
+
     var body: some View {
-        VStack(alignment: .leading, spacing: 8) {
-            Text(placeholder)
-                .foregroundColor(.white)
-                .font(.subheadline)
-                .fontWeight(.medium)
-            
+        VStack {
+            // Search Bar
             HStack {
-                if isVisible {
-                    TextField("", text: $text)
-                        .foregroundColor(.gray)
-                        .font(.subheadline)
-                } else {
-                    SecureField("", text: $text)
-                        .foregroundColor(.gray)
-                        .font(.subheadline)
-                }
-                
+                TextField("Search...", text: $searchText)
+                    .padding(.vertical, 10)
+                    .padding(.horizontal, 15)
+                    .background(Color(.systemGray6))
+                    .cornerRadius(10)
+                    .overlay(
+                        RoundedRectangle(cornerRadius: 10)
+                            .stroke(Color.gray.opacity(0.5), lineWidth: 1)
+                    )
+                    .padding(.leading) // Add padding to the left of the text field
+
+                // Microphone Button
                 Button(action: {
-                    isVisible.toggle()
+                    // Toggle the listening state
+                    isListening.toggle()
                 }) {
-                    Image(systemName: isVisible ? "eye.slash" : "eye")
-                        .foregroundColor(.gray)
-                        .font(.subheadline)
+                    Image(systemName: isListening ? "mic.fill" : "mic") // Filled mic when listening
+                        .font(.title2)
+                        .foregroundColor(.blue)
+                        .padding(.trailing) // Add padding to the right of the button
                 }
             }
-            .padding(.bottom, 8)
-            .overlay(
-                Rectangle()
-                    .frame(height: 1)
-                    .foregroundColor(.gray.opacity(0.3)),
-                alignment: .bottom
-            )
+            .padding(.bottom, 20) // Padding below the search bar row
+
+            // Listening Component - only shown when isListening is true
+            if isListening {
+                ListeningView(showComponent: $isListening)
+                    .transition(.opacity) // Smooth transition for appearance/disappearance
+            }
+
+            Spacer() // Pushes content to the top
         }
+        .padding(.top, 20) // Padding from the top of the screen
     }
 }
 
-#Preview {
-    Logout()
+// MARK: - Preview Provider
+struct SearchView_Previews: PreviewProvider {
+    static var previews: some View {
+        SearchView()
+            .preferredColorScheme(.light) // You can change this to .dark if preferred
+    }
 }
